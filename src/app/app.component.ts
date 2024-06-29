@@ -1,40 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PopupComponent } from "./popup/popup.component";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, PopupComponent, FormsModule, CommonModule]
+    imports: [RouterOutlet, FormsModule, CommonModule]
 })
-export class AppComponent implements OnInit {
-  title = 'cat-facts-extension';
-  intervalRate = 10000;
+export class AppComponent {
+  title = 'Cat Facts';
+  intervalRate = 5000; // Default interval rate
+  catFactsRunning = false; // Track if cat facts fetching is running
 
-  ngOnInit(): void {
-    this.startCatFacts();
+  constructor(private http: HttpClient) {
+    // Initialize by checking current state from background.js
+    chrome.runtime.sendMessage({ action: 'getState' }, (response) => {
+      if (response && response.catFactsRunning) {
+        this.catFactsRunning = true;
+      }
+    });
   }
 
-  startCatFacts(): void {
-    setInterval(() => {
-      fetch('https://cat-fact.herokuapp.com/facts/random')
-        .then(response => response.json())
-        .then(data => {
-          chrome.runtime.sendMessage({
-            action: 'showCatFactPopup',
-            catFact: data.text
-          });
-        })
-        .catch(error => console.error('Error fetching cat fact:', error));
-    }, this.intervalRate);
+  toggleCatFacts(): void {
+    // Toggle cat facts fetching state
+    this.catFactsRunning = !this.catFactsRunning;
+
+    // Send message to background.js to start or stop fetching
+    chrome.runtime.sendMessage({
+      action: 'toggleCatFacts',
+      catFactsRunning: this.catFactsRunning
+    });
   }
+
+ 
 
   adjustInterval(newRate: number): void {
+    // Adjust the interval rate
     this.intervalRate = newRate;
-    this.startCatFacts(); // Restart the script with the new interval
+
+    // If cat facts fetching is running, restart with the new interval
+    if (this.catFactsRunning) {
+      chrome.runtime.sendMessage({
+        action: 'updateIntervalRate',
+        intervalRate: this.intervalRate
+      });
+    }
   }
 }

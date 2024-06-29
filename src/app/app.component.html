@@ -1,1 +1,15 @@
-<input type="range" min="10000" max="600000" step="1000" [(ngModel)]="intervalRate" (change)="adjustInterval(intervalRate)" />
+
+<div class="container">
+  <h1>{{ title }}</h1>
+
+  <button (click)="toggleCatFacts()">
+    {{ catFactsRunning ? 'Stop' : 'Start' }}
+  </button>
+
+  <div class="interval-slider">
+    <label for="intervalRate">Fact Interval: {{ intervalRate / 1000 }} seconds</label>
+    <input type="range" id="intervalRate" min="3000" max="60000" step="1000" [(ngModel)]="intervalRate" (change)="adjustInterval(intervalRate)">
+  </div>
+
+
+</div>

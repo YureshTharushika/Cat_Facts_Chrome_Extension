@@ -1,0 +1,78 @@
+.container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  h1 {
+    color: #333;
+    font-size: 24px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .interval-slider {
+    margin-bottom: 20px;
+  }
+  
+  .interval-slider label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .interval-slider input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #ddd;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .15s ease-in-out;
+  }
+  
+  .interval-slider input[type="range"]:hover {
+    opacity: 1;
+  }
+  
+  .interval-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #007bff;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out;
+  }
+  
+  .interval-slider input[type="range"]::-webkit-slider-thumb:hover {
+    background-color: #0056b3;
+  }
+  
+  .interval-slider input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #007bff;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out;
+  }
+  
+  .interval-slider input[type="range"]::-moz-range-thumb:hover {
+    background-color: #0056b3;
+  }
+  
